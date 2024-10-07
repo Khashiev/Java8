@@ -12,7 +12,7 @@ import static java.sql.Types.BIGINT;
 import static java.sql.Types.VARCHAR;
 
 public class UsersRepositoryJdbcTemplateImpl implements UsersRepository {
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public UsersRepositoryJdbcTemplateImpl(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -21,7 +21,7 @@ public class UsersRepositoryJdbcTemplateImpl implements UsersRepository {
     @Override
     public User findById(Long id) {
         return jdbcTemplate
-                .query("SELECT * FROM userTable WHERE id = ",
+                .query("SELECT * FROM userTable WHERE id = ?",
                         new Object[]{1},
                         new int[]{BIGINT},
                         new BeanPropertyRowMapper<>(User.class))
